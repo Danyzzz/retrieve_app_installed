@@ -37,7 +37,10 @@ public class Apps extends CordovaPlugin {
         for (ResolveInfo resolve : resovleInfos) {
             String packageName = resolve.activityInfo.packageName;
             String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
-            list.add(packageName, strAppName);
+            string i = i++;
+            list.add(packageName);
+            list.add(strAppName);
+            list.add(i);
         }
         List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
