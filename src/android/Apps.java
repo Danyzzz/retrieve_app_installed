@@ -28,21 +28,17 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
-
-        ArrayList<String> list  = new ArrayList<String>();
-        for (ResolveInfo resolve : resovleInfos) {
-            String packageName = resolve.activityInfo.packageName;
-            Bundle strAppName  = resolve.activityInfo.metaData;
-            list.add(packageName);
-            list.add(strAppName);
-        }
-        List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
-        
-        return new JSONArray(ulist);
+        Intent homeintent = new Intent(Intent.ACTION_MAIN);
+        homeintent.addCategory(Intent.CATEGORY_HOME);
+        homeintent.addCategory(Intent.CATEGORY_DEFAULT);// seems not needed here since This is a synonym for
+        // including
+        // the CATEGORY_DEFAULT in your supplied Intent per doc
+        this.resolveInfo = pm.resolveActivity(homeintent, PackageManager.MATCH_DEFAULT_ONLY);
+        ActivityInfo activityInfo = resolveInfo.activityInfo;
+        userHomeLauncherPackage = activityInfo.packageName;
+        userHomeLauncherClass = activityInfo.name;
+        userHomeLauncherName = activityInfo.loadLabel(pm).toString();
+return new JSONArray(userHomeLauncherName);
     }
 
     /**
