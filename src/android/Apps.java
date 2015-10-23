@@ -8,10 +8,12 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+
 import org.json.JSONArray;
-
+import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -25,26 +27,27 @@ public class Apps extends CordovaPlugin {
 
      public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        ctx = cordova.getActivity().getApplicationContext();
+       // ctx = cordova.getActivity().getApplicationContext();
     }
 
     private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
+       PackageManager pm = this.cordova.getActivity().getPackageManager();
+            List<ApplicationInfo> packages = pm.getInstalledApplications( PackageManager.GET_PROVIDERS );
+            ArrayList<JSONObject> res = new ArrayList<JSONObject>();
 
-        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
-        for (ResolveInfo resolve : resovleInfos) {
-            JSONObject json = new JSONObject();
-            json.put("package", resolve.activityInfo.packageName);
-            json.put("name", resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString());
-            list.add(json);
-        }
+            for (ApplicationInfo packageInfo : packages) {
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put( "package", packageInfo.packageName );
+                    json.put( "name", pm.getApplicationLabel( pm.getApplicationInfo( packageInfo.packageName, 0 )).toString() );
+                    res.add( json );
+                } catch (NameNotFoundException e) {}
 
-        JSONArray ulist = new JSONArray(list);
+            }
+
+            JSONArray ar = new JSONArray( res );
         
-        return new JSONArray(ulist);
+        return new JSONArray(ar);
     }
 
     /**
