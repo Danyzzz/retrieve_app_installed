@@ -28,18 +28,32 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
+        List<PackageInfo> apps = getPackageManager().getInstalledPackages(0)
 
-        ArrayList<String> list  = new ArrayList<String>();
-        for (ResolveInfo resolve : resovleInfos) {
-            String packageName = resolve.activityInfo.packageName;
-            list.add(packageName);
-            String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
-            list.add(strAppName);
+        
+        ArrayList<AppInfo> res = new ArrayList<AppInfo>();
+            for(int i=0;i<apps.size();i++) {
+                        PackageInfo p = apps.get(i);
+         
+                        AppInfo newInfo = new AppInfo();
+                        newInfo.appname = p.applicationInfo.loadLabel(getPackageManager()).toString();
+                        newInfo.pname = p.packageName;
+                        newInfo.versionName = p.versionName;
+                        newInfo.versionCode = p.versionCode;
+                        newInfo.icon = p.applicationInfo.loadIcon(getPackageManager());
+                        list.add(newInfo);
+                        }
+                    }
+         
+        class AppInfo {
+            String appname = "";
+            String pname = "";
+            String versionName = "";
+            int versionCode = 0;
+            Drawable icon;
+         
         }
+
         List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
         return new JSONArray(ulist);
