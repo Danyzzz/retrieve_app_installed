@@ -30,7 +30,7 @@ public class Apps extends CordovaPlugin {
     private JSONArray list() { 
         
         PackageManager pm = this.cordova.getActivity().getPackageManager();
-        List<ApplicationInfo> packages = pm.getInstalledApplications( PackageManager.GET_PROVIDERS );
+        List<ApplicationInfo> packages = pm.getInstalledApplications(0);
         ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 
             for (ApplicationInfo packageInfo : packages) {
