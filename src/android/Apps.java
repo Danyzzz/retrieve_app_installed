@@ -28,15 +28,14 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
+        Intent intent = preference.getIntent();
+        PackageManager packageMgr = ctx.getPackageManager(); 
+         List<ResolveInfo> list = packageMgr.queryIntentActivities(intent, 0);
 
         ArrayList<String> list  = new ArrayList<String>();
         for (ResolveInfo resolve : resovleInfos) {
-            String packageName = activityInfo.packageName;
-            String strAppName  = list.get(position).activityInfo.applicationInfo.loadLabel(packageMgr).toString();
+            String packageName = resolve.activityInfo.packageName;
+            String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
             list.add(packageName);
             list.add(strAppName);
         }
