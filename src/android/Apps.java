@@ -28,25 +28,18 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        
-            PackageManager packageMgr = ctx.getPackageManager();
+        PackageManager packageMgr = ctx.getPackageManager();
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
 
-          final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-          mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-          final List pkgAppsList = packageMgr.queryIntentActivities( mainIntent, 0);
-          ArrayList<String> list  = new ArrayList<String>();
-          for (Object object : pkgAppsList) 
-          {
-            ResolveInfo info = (ResolveInfo) object;
-            //Drawable icon    = getBaseContext().getPackageManager().getApplicationIcon(info.activityInfo.applicationInfo);
-            String strAppName   = info.activityInfo.applicationInfo.loadLabel(packageMgr).toString();
-            String strPackageName  = info.activityInfo.applicationInfo.packageName.toString();
-            //final String title  = (String)((info != null) ? packageMgr.getApplicationLabel(info.activityInfo.applicationInfo) : "???");
+        ArrayList<String> list  = new ArrayList<String>();
+        for (ResolveInfo resolve : resovleInfos) {
+            String packageName = resolve.activityInfo.packageName;
+            String strAppName  = resolve.activityInfo.loadLabelRes(packageMgr).toString();
+            list.add(packageName);
             list.add(strAppName);
-            list.add(strPackageName);
-        }     
-
-
+        }
         List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
         return new JSONArray(ulist);
