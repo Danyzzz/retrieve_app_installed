@@ -3,17 +3,14 @@ package so.doo.app.plugins;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import org.json.JSONException;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -27,27 +24,25 @@ public class Apps extends CordovaPlugin {
 
      public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-       // ctx = cordova.getActivity().getApplicationContext();
+        ctx = cordova.getActivity().getApplicationContext();
     }
 
     private JSONArray list() {
-       PackageManager pm = this.cordova.getActivity().getPackageManager();
-            List<ApplicationInfo> packages = pm.getInstalledApplications( PackageManager.GET_PROVIDERS );
-            ArrayList<JSONObject> res = new ArrayList<JSONObject>();
+        PackageManager packageMgr = ctx.getPackageManager();
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
 
-            for (ApplicationInfo packageInfo : packages) {
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put( "package", packageInfo.packageName );
-                    json.put( "name", pm.getApplicationLabel( pm.getApplicationInfo( packageInfo.packageName, 0 )).toString() );
-                    res.add( json );
-                } catch (NameNotFoundException e) {}
-
-            }
-
-            JSONArray ar = new JSONArray( res );
+        ArrayList<String> list  = new ArrayList<String>();
+        for (ResolveInfo resolve : resovleInfos) {
+            String packageName = resolve.activityInfo.packageName;
+            String strAppName  = resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString();
+            list.add(packageName);
+            list.add(strAppName);
+        }
+        List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
-        return new JSONArray(ar);
+        return new JSONArray(ulist);
     }
 
     /**
