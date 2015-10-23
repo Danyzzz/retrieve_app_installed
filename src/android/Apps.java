@@ -27,20 +27,21 @@ public class Apps extends CordovaPlugin {
         ctx = cordova.getActivity().getApplicationContext();
     }
 
-    private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
+    private JSONArray list() { 
+        
+        PackageManager pm = this.cordova.getActivity().getPackageManager();
+        List<ApplicationInfo> packages = pm.getInstalledApplications( PackageManager.GET_PROVIDERS );
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 
-        ArrayList<String> list  = new ArrayList<String>();
-        for (ResolveInfo resolve : resovleInfos) {
-            String packageName = resolve.activityInfo.packageName;
-            String strAppName  = resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString();
-            list.add(packageName);
-            list.add(strAppName);
-        }
-        List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
+            for (ApplicationInfo packageInfo : packages) {
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put( "name", pm.getApplicationLabel( pm.getApplicationInfo( packageInfo.packageName, 0 )).toString() );
+                    list.add( json );
+                } catch (NameNotFoundException e) {}
+
+
+        JSONArray ulist = new JSONArray(list);
         
         return new JSONArray(ulist);
     }
