@@ -3,13 +3,13 @@ package so.doo.app.plugins;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
+import org.json.JSONException;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
