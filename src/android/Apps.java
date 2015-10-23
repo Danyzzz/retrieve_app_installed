@@ -46,19 +46,19 @@ public class Apps extends CordovaPlugin {
 
     private JSONArray list() { 
         
-        PackageManager pm = this.cordova.getActivity().getPackageManager();
-        List<ApplicationInfo> packages = pm.getInstalledApplications(0);
-        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
+      PackageManager pm = this.cordova.getActivity().getPackageManager();
+            List<ApplicationInfo> packages = pm.getInstalledApplications( PackageManager.GET_PROVIDERS );
+            ArrayList<JSONObject> res = new ArrayList<JSONObject>();
 
             for (ApplicationInfo packageInfo : packages) {
                 try {
                     JSONObject json = new JSONObject();
+                    json.put( "package", packageInfo.packageName );
                     json.put( "name", pm.getApplicationLabel( pm.getApplicationInfo( packageInfo.packageName, 0 )).toString() );
-                    list.add( json );
+                    res.add( json );
                 } catch (NameNotFoundException e) {}
-            }
 
-        JSONArray ulist = new JSONArray(list);
+        JSONArray ulist = new JSONArray(res);
         
         return new JSONArray(ulist);
     }
