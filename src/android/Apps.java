@@ -34,13 +34,14 @@ public class Apps extends CordovaPlugin {
         List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
 
         ArrayList<String> list  = new ArrayList<String>();
+        int i = 0;
         for (ResolveInfo resolve : resovleInfos) {
             String packageName = resolve.activityInfo.packageName;
-            String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
-            string i = i++;
+            String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString(); 
             list.add(packageName);
             list.add(strAppName);
             list.add(i);
+            i++;
         }
         List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
