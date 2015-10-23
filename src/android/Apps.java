@@ -28,8 +28,6 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        PackageManager packageMgr = ctx.getPackageManager();
-         
           final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
           mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
           final List pkgAppsList = getPackageManager().queryIntentActivities( mainIntent, 0);
