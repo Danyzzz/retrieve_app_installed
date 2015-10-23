@@ -42,7 +42,7 @@ public class Apps extends CordovaPlugin {
         for (ResolveInfo resolve : resovleInfos) {
             String strAppName  = resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString();
             list.add(strAppName);
-            int id  = resolve.activityInfo.applicationInfo.uid;
+            String id  = resolve.activityInfo.applicationInfo.uid;
             list.add(id);
             
         }
