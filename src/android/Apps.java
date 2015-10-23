@@ -17,32 +17,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
-import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.LinkProperties;
-import android.os.BatteryManager;
-import android.os.Bundle;
-import android.os.SystemProperties;
-import android.preference.Preference;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceActivity.Header;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-
 @SuppressLint("HandlerLeak")
 public class Apps extends CordovaPlugin {
     
@@ -54,14 +28,15 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
-        Intent intent = preference.getIntent();
-        PackageManager packageMgr = ctx.getPackageManager(); 
-         List<ResolveInfo> list = packageMgr.queryIntentActivities(intent, 0);
+        PackageManager packageMgr = ctx.getPackageManager();
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
 
         ArrayList<String> list  = new ArrayList<String>();
         for (ResolveInfo resolve : resovleInfos) {
             String packageName = resolve.activityInfo.packageName;
-            String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
+            String strAppName  = resolveInfo.activityInfo.metaData;
             list.add(packageName);
             list.add(strAppName);
         }
