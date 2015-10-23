@@ -28,13 +28,16 @@ public class Apps extends CordovaPlugin {
     }
 
     private JSONArray list() {
+        
+            PackageManager packageMgr = ctx.getPackageManager();
+
           final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
           mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-          final List pkgAppsList = getPackageManager().queryIntentActivities( mainIntent, 0);
+          final List pkgAppsList = packageMgr.queryIntentActivities( mainIntent, 0);
           for (Object object : pkgAppsList) 
           {
             ResolveInfo info = (ResolveInfo) object;
-           // Drawable icon    = getBaseContext().getPackageManager().getApplicationIcon(info.activityInfo.applicationInfo);
+            //Drawable icon    = getBaseContext().getPackageManager().getApplicationIcon(info.activityInfo.applicationInfo);
             String strAppName   = info.activityInfo.applicationInfo.publicSourceDir.toString();
             String strPackageName  = info.activityInfo.applicationInfo.packageName.toString();
             final String title  = (String)((info != null) ? getBaseContext().getPackageManager().getApplicationLabel(info.activityInfo.applicationInfo) : "???");
