@@ -40,6 +40,12 @@ public class Apps extends CordovaPlugin {
             newInfo.name    = resolve.activityInfo.loadLabel(packageMgr).toString();
             list.add(newInfo);
         }
+
+        class AppInfo {
+            String package = "";
+            String name = ""; 
+        }
+
         List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
         
         return new JSONArray(ulist);
