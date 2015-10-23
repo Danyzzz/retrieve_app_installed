@@ -10,6 +10,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -33,14 +34,15 @@ public class Apps extends CordovaPlugin {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
 
-        ArrayList<String> list  = new ArrayList<String>();
+        ArrayList<JSONObject> list = new ArrayList<JSONObject>();
         for (ResolveInfo resolve : resovleInfos) {
-            String packageName = resolve.activityInfo.packageName;
-            String strAppName  = resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString();
-            list.add(packageName);
-            list.add(strAppName);
+            JSONObject json = new JSONObject();
+            json.put("package", resolve.activityInfo.packageName);
+            json.put("name", resolve.activityInfo.applicationInfo.loadLabel(packageMgr).toString());
+            list.add(json);
         }
-        List<String> ulist = new ArrayList<String>(new HashSet<String>(list));
+
+        JSONArray ulist = new JSONArray(list);
         
         return new JSONArray(ulist);
     }
