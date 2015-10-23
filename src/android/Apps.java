@@ -39,7 +39,7 @@ public class Apps extends CordovaPlugin {
                     json.put( "name", pm.getApplicationLabel( pm.getApplicationInfo( packageInfo.packageName, 0 )).toString() );
                     list.add( json );
                 } catch (NameNotFoundException e) {}
-
+            }
 
         JSONArray ulist = new JSONArray(list);
         
