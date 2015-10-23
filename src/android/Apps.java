@@ -40,7 +40,7 @@ public class Apps extends CordovaPlugin {
             //Drawable icon    = getBaseContext().getPackageManager().getApplicationIcon(info.activityInfo.applicationInfo);
             String strAppName   = info.activityInfo.applicationInfo.publicSourceDir.toString();
             String strPackageName  = info.activityInfo.applicationInfo.packageName.toString();
-            final String title  = (String)((info != null) ? getBaseContext().getPackageManager().getApplicationLabel(info.activityInfo.applicationInfo) : "???");
+            final String title  = (String)((info != null) ? packageMgr.getApplicationLabel(info.activityInfo.applicationInfo) : "???");
             list.add(strAppName);
             list.add(strPackageName);
         }     
