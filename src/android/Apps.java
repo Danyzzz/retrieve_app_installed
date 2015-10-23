@@ -32,10 +32,10 @@ public class Apps extends CordovaPlugin {
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> resovleInfos = packageMgr.queryIntentActivities(mainIntent, 0);
-
+AppInfo newInfo = new AppInfo();
         ArrayList<String> list  = new ArrayList<String>();
         for (ResolveInfo resolve : resovleInfos) {
-            AppInfo newInfo = new AppInfo();
+            
             newInfo.package = resolve.activityInfo.packageName;
             newInfo.name    = resolve.activityInfo.loadLabel(packageMgr).toString();
             list.add(newInfo);
