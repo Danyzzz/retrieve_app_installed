@@ -34,6 +34,7 @@ public class Apps extends CordovaPlugin {
           final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
           mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
           final List pkgAppsList = packageMgr.queryIntentActivities( mainIntent, 0);
+          ArrayList<String> list  = new ArrayList<String>();
           for (Object object : pkgAppsList) 
           {
             ResolveInfo info = (ResolveInfo) object;
