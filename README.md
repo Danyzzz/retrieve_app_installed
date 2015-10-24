@@ -2,7 +2,7 @@
 
   function retrieve(){<br>
     window.apps.list(function(list) {<br>
-        alert(list);<br>
+    &nbsp;&nbsp;    alert(list);<br>
     });<br>
    }
    
