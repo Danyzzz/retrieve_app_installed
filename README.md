@@ -1,9 +1,9 @@
 # retrieve_app_installed
 
   function retrieve(){<br>
-    window.apps.list(function(list) {<br>
+    &nbsp;window.apps.list(function(list) {<br>
     &nbsp;&nbsp;    alert(list);<br>
-    });<br>
+    &nbsp;});<br>
    }
    
 This plugin retrieves a package name and label name of the apps installed.
