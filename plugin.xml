@@ -4,7 +4,7 @@
     <author>weelion</author>
     <description>get device installed apps</description>
     <keywords>cordova, installed apps</keywords>
-    <engines>
+    <engines> 
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
