@@ -1,6 +1,6 @@
 # retrieve_app_installed
 
-  function retrieve(){
+  function retrieve(){<br>
     window.apps.list(function(list) {
         alert(list);
     });
