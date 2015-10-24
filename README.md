@@ -1,4 +1,4 @@
-# retrieve_app_installed
+# Retrieve App Installed
 
   function retrieve(){<br>
     &nbsp;window.apps.list(function(list) {<br>
