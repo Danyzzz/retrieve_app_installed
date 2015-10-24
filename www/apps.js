@@ -9,3 +9,4 @@ Apps.prototype.list = function (func) {
 };
 
 module.exports = new Apps();
+ 
