@@ -1,9 +1,9 @@
-# Retrieve App Installed
+# Retrieve App Installed from android cordova app
 
   function retrieve(){<br>
-    &nbsp;window.apps.list(function(list) {<br>
-    &nbsp;&nbsp;    alert(list);<br>
-    &nbsp;});<br>
+    &nbsp;&nbsp;window.apps.list(function(list) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    alert(list);<br>
+    &nbsp;&nbsp;});<br>
    }
    
 This plugin retrieves a package name and label name of the apps installed.
