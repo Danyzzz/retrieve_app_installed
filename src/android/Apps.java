@@ -39,7 +39,7 @@ public class Apps extends CordovaPlugin {
             String packageName = resolve.activityInfo.packageName;
             String strAppName  = resolve.activityInfo.loadLabel(packageMgr).toString();
 
-            if(packageName != NULL && strAppName !=  NULL){ 
+            if(packageName != "" && strAppName !=  ""){ 
                 list.add(packageName);
                 list.add(strAppName);
             }
